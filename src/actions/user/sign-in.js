@@ -29,7 +29,7 @@ export default ({ email, password}) => {
         // Redirect programatically to the Lobby
         dispatch(replace('/'))
 
-        websocket.connect()(dispatch)
+        dispatch(websocket.connect())
 
         return api.get('/users/me')
       })

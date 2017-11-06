@@ -10,7 +10,7 @@ export default () => {
   return dispatch => {
     api.signOut()
     dispatch(push('/sign-in'))
-    websocket.disconnect()(dispatch)
+    dispatch(websocket.disconnect())
     dispatch({ type: USER_SIGNED_OUT })
   }
 }

@@ -35,6 +35,7 @@ export const connect = () => {
 export const disconnect = () => {
   return dispatch => {
     if (socket) socket.disconnect()
+    socket = null
     dispatch({ type: DISCONNECTED_FROM_WEBSOCKET })
   }
 }
