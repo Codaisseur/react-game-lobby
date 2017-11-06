@@ -7,7 +7,7 @@ import {
   LOAD_ERROR,
   LOAD_SUCCESS
 } from '../loading'
-import websocket from '../games/websocket'
+import websocket from '../websocket'
 
 export const USER_SIGNED_IN = 'USER_SIGNED_IN'
 
@@ -21,16 +21,16 @@ export default ({ email, password}) => {
       .then((res) => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
-        
+
         const jwt = res.body.token
-        
+
         api.storeToken(jwt)
 
         // Redirect programatically to the Lobby
         dispatch(replace('/'))
-        
+
         websocket.connect()(dispatch)
-        
+
         return api.get('/users/me')
       })
       .then((res) => {

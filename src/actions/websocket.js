@@ -1,14 +1,11 @@
-// src/actions/games/subscribe.js
+// src/actions/websocket.js
 import io from 'socket.io-client'
 import { push } from 'react-router-redux'
-import API from '../../api/client'
-import { AUTH_ERROR } from '../loading'
+import API from '../api/client'
+import { AUTH_ERROR } from './loading'
 
-export const CONNECTED_TO_GAMES_SERVICE = 'CONNECTED_TO_GAMES_SERVICE'
-export const DISCONNECTED_FROM_GAMES_SERVICE = 'DISCONNECTED_FROM_GAMES_SERVICE'
-export const GAME_CREATED = 'GAME_CREATED'
-export const GAME_UPDATED = 'GAME_UPDATED'
-export const GAME_REMOVED = 'GAME_REMOVED'
+export const CONNECTED_TO_WEBSOCKET = 'CONNECTED_TO_WEBSOCKET'
+export const DISCONNECTED_FROM_WEBSOCKET = 'DISCONNECTED_FROM_WEBSOCKET'
 
 const api = new API()
 
@@ -16,6 +13,8 @@ let socket = null
 
 export const connect = () => {
   return dispatch => {
+    if (socket) { return }
+
     if (!api.isAuthenticated()) {
       dispatch({ type: AUTH_ERROR })
       dispatch(push('/sign-in'))
@@ -29,14 +28,14 @@ export const connect = () => {
     })
 
     socket.on('action', dispatch)
-    dispatch({ type: CONNECTED_TO_GAMES_SERVICE })
+    dispatch({ type: CONNECTED_TO_WEBSOCKET })
   }
 }
 
 export const disconnect = () => {
   return dispatch => {
     if (socket) socket.disconnect()
-    dispatch({ type: DISCONNECTED_FROM_GAMES_SERVICE })
+    dispatch({ type: DISCONNECTED_FROM_WEBSOCKET })
   }
 }
 

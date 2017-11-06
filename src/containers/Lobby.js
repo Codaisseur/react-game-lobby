@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import fetchGames from '../actions/games/fetch'
+import { connect as subscribeToWebsocket } from '../actions/websocket'
 import CreateGameButton from '../components/games/CreateGameButton'
 import Paper from 'material-ui/Paper'
 import Menu from 'material-ui/Menu'
@@ -15,6 +16,7 @@ import './Lobby.css'
 class Lobby extends PureComponent {
   componentWillMount() {
     this.props.fetchGames()
+    this.props.subscribeToWebsocket()
   }
 
   goToGame = (gameId) => {
@@ -61,4 +63,4 @@ class Lobby extends PureComponent {
 
 const mapStateToProps = ({ games }) => ({ games })
 
-export default connect(mapStateToProps, { fetchGames })(Lobby)
+export default connect(mapStateToProps, { fetchGames, subscribeToWebsocket })(Lobby)

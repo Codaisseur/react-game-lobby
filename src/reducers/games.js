@@ -4,7 +4,7 @@ import {
   GAME_CREATED,
   GAME_UPDATED,
   GAME_REMOVED
-} from '../actions/games/websocket'
+} from '../actions/games/subscribe'
 
 export default (state = [], { type, payload } = {}) => {
   switch (type) {
