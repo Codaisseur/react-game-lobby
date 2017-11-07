@@ -33,11 +33,10 @@ export const connect = () => {
 }
 
 export const disconnect = () => {
-  return dispatch => {
-    if (socket) socket.disconnect()
-    socket = null
-    dispatch({ type: DISCONNECTED_FROM_WEBSOCKET })
-  }
+  if (socket) { socket.disconnect() }
+  socket = null
+
+  return { type: DISCONNECTED_FROM_WEBSOCKET }
 }
 
 export default {
