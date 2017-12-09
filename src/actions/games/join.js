@@ -1,4 +1,5 @@
 // src/actions/games/join.js
+import TAKE_TILE from '../../components/games/Board'
 import API from '../../api/client'
 import {
   APP_LOADING,
@@ -15,6 +16,9 @@ export default (game) => {
 
     api.post(`/games/${game._id}/players`, {})
       .then(() => {
+        console.table(game.tiles)
+        console.table(game)
+        dispatch({type: TAKE_TILE, payload: game.tiles})
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
       })
