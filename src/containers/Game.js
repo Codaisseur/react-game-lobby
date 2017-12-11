@@ -4,6 +4,9 @@ import { connect } from 'react-redux'
 import { fetchOneGame, fetchPlayers } from '../actions/games/fetch'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
 import JoinGameDialog from '../components/games/JoinGameDialog'
+import Tile from '../components/games/Tile'
+import './Game.css'
+import takeTile from '../actions/games/updateBoard'
 
 const playerShape = PropTypes.shape({
   userId: PropTypes.string.isRequired,
@@ -13,10 +16,12 @@ const playerShape = PropTypes.shape({
 
 class Game extends PureComponent {
   static propTypes = {
+    takeTile: PropTypes.func,
     fetchOneGame: PropTypes.func.isRequired,
     fetchPlayers: PropTypes.func.isRequired,
     subscribeToWebsocket: PropTypes.func.isRequired,
     game: PropTypes.shape({
+      tiles: PropTypes.arrayOf(PropTypes.string),
       _id: PropTypes.string.isRequired,
       userId: PropTypes.string.isRequired,
       players: PropTypes.arrayOf(playerShape),
@@ -36,6 +41,7 @@ class Game extends PureComponent {
     isPlayer: PropTypes.bool,
     isJoinable: PropTypes.bool,
     hasTurn: PropTypes.bool
+
   }
 
   componentWillMount() {
@@ -54,6 +60,11 @@ class Game extends PureComponent {
     }
   }
 
+  renderTile = (value, index) => {
+    return <Tile key={index} onClick={this.props.takeTile(index)} value={value} />
+  }
+
+
   render() {
     const { game } = this.props
 
@@ -69,9 +80,9 @@ class Game extends PureComponent {
         <p>{title}</p>
 
         <h1>YOUR GAME HERE! :)</h1>
-
-        <h2>Debug Props</h2>
-        <pre>{JSON.stringify(this.props, true, 2)}</pre>
+        <div className="Board">
+        {this.props.game.tiles.map(this.renderTile)}
+        </div>
 
         <JoinGameDialog gameId={game._id} />
       </div>
@@ -95,5 +106,6 @@ const mapStateToProps = ({ currentUser, games }, { match }) => {
 export default connect(mapStateToProps, {
   subscribeToWebsocket,
   fetchOneGame,
-  fetchPlayers
+  fetchPlayers,
+  takeTile
 })(Game)
