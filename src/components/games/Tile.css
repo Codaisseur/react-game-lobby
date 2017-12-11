@@ -1,0 +1,21 @@
+.Tile {
+  flex: 1;
+  min-width: 200px;
+  max-width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #e4e4e4;
+  cursor: pointer;
+  color: #D32F2F;
+}
+
+.Tile:hover {
+  background-color: #e4e4e4;
+}
+
+.Tile p {
+  width: 100%;
+  text-align: center;
+  font-size: 60px;
+}
