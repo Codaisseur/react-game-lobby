@@ -6,6 +6,7 @@ import { connect as subscribeToWebsocket } from '../actions/websocket'
 import JoinGameDialog from '../components/games/JoinGameDialog'
 import Tile from '../components/games/Tile'
 import './Game.css'
+import takeTile from '../actions/games/updateBoard'
 
 const playerShape = PropTypes.shape({
   userId: PropTypes.string.isRequired,
@@ -15,6 +16,7 @@ const playerShape = PropTypes.shape({
 
 class Game extends PureComponent {
   static propTypes = {
+    takeTile: PropTypes.func,
     fetchOneGame: PropTypes.func.isRequired,
     fetchPlayers: PropTypes.func.isRequired,
     subscribeToWebsocket: PropTypes.func.isRequired,
@@ -59,7 +61,7 @@ class Game extends PureComponent {
   }
 
   renderTile = (value, index) => {
-    return <Tile key={index}  value={value} />
+    return <Tile key={index} onClick={this.props.takeTile(index)} value={value} />
   }
 
 
@@ -104,5 +106,6 @@ const mapStateToProps = ({ currentUser, games }, { match }) => {
 export default connect(mapStateToProps, {
   subscribeToWebsocket,
   fetchOneGame,
-  fetchPlayers
+  fetchPlayers,
+  takeTile
 })(Game)
