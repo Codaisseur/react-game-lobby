@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 import { fetchOneGame, fetchPlayers } from '../actions/games/fetch'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
 import JoinGameDialog from '../components/games/JoinGameDialog'
-import Board from '../components/games/Board'
+import Tile from '../components/games/Tile'
+import './Game.css'
 
 const playerShape = PropTypes.shape({
   userId: PropTypes.string.isRequired,
@@ -18,6 +19,7 @@ class Game extends PureComponent {
     fetchPlayers: PropTypes.func.isRequired,
     subscribeToWebsocket: PropTypes.func.isRequired,
     game: PropTypes.shape({
+      tiles: PropTypes.arrayOf(PropTypes.string),
       _id: PropTypes.string.isRequired,
       userId: PropTypes.string.isRequired,
       players: PropTypes.arrayOf(playerShape),
@@ -37,6 +39,7 @@ class Game extends PureComponent {
     isPlayer: PropTypes.bool,
     isJoinable: PropTypes.bool,
     hasTurn: PropTypes.bool
+
   }
 
   componentWillMount() {
@@ -55,6 +58,11 @@ class Game extends PureComponent {
     }
   }
 
+  renderTile = (value, index) => {
+    return <Tile key={index}  value={value} />
+  }
+
+
   render() {
     const { game } = this.props
 
@@ -70,7 +78,9 @@ class Game extends PureComponent {
         <p>{title}</p>
 
         <h1>YOUR GAME HERE! :)</h1>
-        <Board />
+        <div className="Board">
+        {this.props.game.tiles.map(this.renderTile)}
+        </div>
 
         <JoinGameDialog gameId={game._id} />
       </div>
